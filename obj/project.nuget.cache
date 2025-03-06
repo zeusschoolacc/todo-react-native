@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "dgSpecHash": "UxEyfo5WVok=",
+  "success": false,
+  "projectFilePath": "/Users/zeuselderfield/Documents/Nerd typeshi/github/acads/todo-maui/todo-maui.csproj",
+  "expectedPackageFiles": [],
+  "logs": [
+    {
+      "code": "NU1012",
+      "level": "Error",
+      "message": "Platform version is not present for one or more target frameworks, even though they have specified a platform: net9.0-ios, net9.0-maccatalyst"
+    }
+  ]
+}
