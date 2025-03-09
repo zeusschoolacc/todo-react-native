@@ -5,14 +5,14 @@ import { Image, StyleSheet, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
 export default function LoginScreen() {
-  const router = useRouter()
+    const router = useRouter()
 
   return (
     <ScrollView style={styles.container}>
       <View style={styles.imageContainer}>
         <Image 
           style={styles.image}
-          source={require('@/assets/images/login-img.png')} 
+          source={require('@/assets/images/signup-img.png')} 
         />
       </View>
       <View style={styles.inputContainer}>
@@ -20,17 +20,24 @@ export default function LoginScreen() {
           placeholder='Username'
         />
         <Input 
+          placeholder='Email'
+        />
+        <Input 
           placeholder='Password'
           isHash
         />
-        <AuthButton
-          title='SIGN IN'
+        <Input 
+          placeholder='Confirm Password'
+          isHash
+        />
+        <AuthButton 
+          title='SIGN UP'
         />
 
         <AuthButton 
-          onClick={() => {router.push('/signup')}}  
-          title='SIGN UP'
-          isSecondary
+            onClick={() => {router.push('/')}}  
+            title='SIGN IN'
+            isSecondary
         />
       </View>
     </ScrollView>
@@ -40,8 +47,7 @@ export default function LoginScreen() {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#FFC0CB",
-    paddingHorizontal: 40,
-    paddingTop: 40
+    paddingHorizontal: 40
   },
   imageContainer: {
     height: 400,
