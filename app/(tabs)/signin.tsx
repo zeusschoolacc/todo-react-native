@@ -2,37 +2,30 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet, ScrollView, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { signUpWithEmail } from '@/lib/firebase/auth';
 import Input from '@/components/Input';
+import { signInWithEmail } from '@/lib/firebase/auth';
 
-export default function SignUpScreen() {
+export default function SignInScreen() {
   const router = useRouter();
 
-  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
 
-  const handleSignUp = async () => {
-    if (!username || !email || !password || !confirmPassword) {
+  const handleSignIn = async () => {
+    if (!email || !password) {
       Alert.alert('Error', 'Please fill out all fields.');
       return;
     }
 
-    if (password !== confirmPassword) {
-      Alert.alert('Error', 'Passwords do not match!');
-      return;
-    }
-
     try {
-      const userCredential = await signUpWithEmail(email, password);
+      const userCredential = await signInWithEmail(email, password);
       const user = userCredential.user;
-      console.log('User created:', user);
-      Alert.alert('Success', 'Account created!');
-      router.push('/explore'); 
+      console.log('Signed in:', user);
+      Alert.alert('Success', 'Welcome back!');
+      router.push('/explore');
     } catch (error: any) {
-      console.error('Signup Error:', error);
-      Alert.alert('Error', error.message || 'Failed to sign up.');
+      console.error('SignIn Error:', error);
+      Alert.alert('Error', error.message || 'Failed to sign in.');
     }
   };
 
@@ -40,21 +33,15 @@ export default function SignUpScreen() {
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
         <Image
-          source={require('../../assets/images/signup-img.png')} 
+          source={require('../../assets/images/signin-img.png')} // Replace with actual image path
           style={styles.image}
           resizeMode="contain"
         />
 
         <Input
           placeholder="Username"
-          value={username}
-          onChangeText={setUsername}
-        />
-        <Input
-          placeholder="Email"
           value={email}
           onChangeText={setEmail}
-          keyboardType="email-address"
           autoCapitalize="none"
         />
         <Input
@@ -63,19 +50,13 @@ export default function SignUpScreen() {
           onChangeText={setPassword}
           secureTextEntry
         />
-        <Input
-          placeholder="Confirm Password"
-          value={confirmPassword}
-          onChangeText={setConfirmPassword}
-          secureTextEntry
-        />
 
-        <TouchableOpacity style={styles.signUpButton} onPress={handleSignUp}>
-          <Text style={styles.signUpText}>SIGN UP</Text>
+        <TouchableOpacity style={styles.signInButton} onPress={handleSignIn}>
+          <Text style={styles.signInText}>SIGN IN</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.signInButton} onPress={() => router.push('/signin')}>
-          <Text style={styles.signInText}>SIGN IN</Text>
+        <TouchableOpacity style={styles.signUpButton} onPress={() => router.push('/')}>
+          <Text style={styles.signUpText}>SIGN UP</Text>
         </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
@@ -97,7 +78,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     marginBottom: 20,
   },
-  signUpButton: {
+  signInButton: {
     width: '100%',
     backgroundColor: '#F8739A',
     padding: 14,
@@ -105,12 +86,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 10,
   },
-  signUpText: {
+  signInText: {
     color: '#fff',
     fontWeight: 'bold',
     fontSize: 16,
   },
-  signInButton: {
+  signUpButton: {
     width: '100%',
     backgroundColor: '#f9d1d8',
     padding: 14,
@@ -118,7 +99,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 10,
   },
-  signInText: {
+  signUpText: {
     color: '#fff',
     fontWeight: 'bold',
     fontSize: 16,
