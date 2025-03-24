@@ -4,6 +4,7 @@ import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { signUpWithEmail } from '@/lib/firebase/auth';
 import Input from '@/components/Input';
+import Button from '@/components/Button';
 
 export default function SignUpScreen() {
   const router = useRouter();
@@ -70,13 +71,17 @@ export default function SignUpScreen() {
           secureTextEntry
         />
 
-        <TouchableOpacity style={styles.signUpButton} onPress={handleSignUp}>
-          <Text style={styles.signUpText}>SIGN UP</Text>
-        </TouchableOpacity>
+        <Button
+          label="SIGN UP"
+          onPress={handleSignUp}
+          color="#F8739A"
+        />
 
-        <TouchableOpacity style={styles.signInButton} onPress={() => router.push('/signin')}>
-          <Text style={styles.signInText}>SIGN IN</Text>
-        </TouchableOpacity>
+        <Button
+          label="SIGN IN"
+          onPress={() => router.push('/signin')}
+          color="#f9d1d8"
+        />
       </ScrollView>
     </SafeAreaView>
   );
