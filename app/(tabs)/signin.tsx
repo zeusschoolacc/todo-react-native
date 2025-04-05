@@ -22,7 +22,7 @@ export default function SignInScreen() {
       const user = userCredential.user;
       console.log('Signed in:', user);
       Alert.alert('Success', 'Welcome back!');
-      router.push('/explore');
+      router.push('/');
     } catch (error: any) {
       console.error('SignIn Error:', error);
       Alert.alert('Error', error.message || 'Failed to sign in.');
