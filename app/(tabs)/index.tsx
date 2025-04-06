@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet, ScrollView, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { signUpWithEmail } from '@/lib/firebase/auth';
 import Input from '@/components/Input';
 import Button from '@/components/Button';
 
@@ -14,28 +13,28 @@ export default function SignUpScreen() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  const handleSignUp = async () => {
-    if (!username || !email || !password || !confirmPassword) {
-      Alert.alert('Error', 'Please fill out all fields.');
-      return;
-    }
+  // const handleSignUp = async () => {
+  //   if (!username || !email || !password || !confirmPassword) {
+  //     Alert.alert('Error', 'Please fill out all fields.');
+  //     return;
+  //   }
 
-    if (password !== confirmPassword) {
-      Alert.alert('Error', 'Passwords do not match!');
-      return;
-    }
+  //   if (password !== confirmPassword) {
+  //     Alert.alert('Error', 'Passwords do not match!');
+  //     return;
+  //   }
 
-    try {
-      const userCredential = await signUpWithEmail(email, password);
-      const user = userCredential.user;
-      console.log('User created:', user);
-      Alert.alert('Success', 'Account created!');
-      router.push('/explore'); 
-    } catch (error: any) {
-      console.error('Signup Error:', error);
-      Alert.alert('Error', error.message || 'Failed to sign up.');
-    }
-  };
+  //   try {
+  //     const userCredential = await signUpWithEmail(email, password);
+  //     const user = userCredential.user;
+  //     console.log('User created:', user);
+  //     Alert.alert('Success', 'Account created!');
+  //     router.push('/explore'); 
+  //   } catch (error: any) {
+  //     console.error('Signup Error:', error);
+  //     Alert.alert('Error', error.message || 'Failed to sign up.');
+  //   }
+  // };
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -73,7 +72,7 @@ export default function SignUpScreen() {
 
         <Button
           label="SIGN UP"
-          onPress={handleSignUp}
+          onPress={() => router.push('/todo')}
           color="#F8739A"
         />
 
@@ -93,6 +92,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFC6D0',
   },
   container: {
+    height: '100%',
+    justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
   },

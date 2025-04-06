@@ -3,7 +3,6 @@ import { View, Text, TouchableOpacity, Image, StyleSheet, ScrollView, Alert } fr
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Input from '@/components/Input';
-import { signInWithEmail } from '@/lib/firebase/auth';
 
 export default function SignInScreen() {
   const router = useRouter();
@@ -17,16 +16,7 @@ export default function SignInScreen() {
       return;
     }
 
-    try {
-      const userCredential = await signInWithEmail(email, password);
-      const user = userCredential.user;
-      console.log('Signed in:', user);
-      Alert.alert('Success', 'Welcome back!');
-      router.push('/');
-    } catch (error: any) {
-      console.error('SignIn Error:', error);
-      Alert.alert('Error', error.message || 'Failed to sign in.');
-    }
+    router.push('/todo');
   };
 
   return (
@@ -51,7 +41,9 @@ export default function SignInScreen() {
           secureTextEntry
         />
 
-        <TouchableOpacity style={styles.signInButton} onPress={handleSignIn}>
+        <TouchableOpacity style={styles.signInButton} 
+        onPress={handleSignIn}
+        >
           <Text style={styles.signInText}>SIGN IN</Text>
         </TouchableOpacity>
 
@@ -69,6 +61,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFC6D0',
   },
   container: {
+    height: '100%',
+    justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
   },
