@@ -16,7 +16,20 @@ export default function SignInScreen() {
       return;
     }
 
-    router.push('/todo');
+    // router.push('/todo')
+
+    const response = await fetch(`https://todo-list.dcism.org/signin_action.php?email=${email}&password=${password}`, {
+      method: 'GET'
+    });
+
+    const data = await response.json();
+
+    if (data.status === 200) {
+      router.push('/todo');
+      return;
+    }
+
+    Alert.alert('Error', 'Invalid username or password.');
   };
 
   return (
@@ -29,7 +42,7 @@ export default function SignInScreen() {
         />
 
         <Input
-          placeholder="Username"
+          placeholder="Email"
           value={email}
           onChangeText={setEmail}
           autoCapitalize="none"

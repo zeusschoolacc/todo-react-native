@@ -8,33 +8,54 @@ import Button from '@/components/Button';
 export default function SignUpScreen() {
   const router = useRouter();
 
-  const [username, setUsername] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  // const handleSignUp = async () => {
-  //   if (!username || !email || !password || !confirmPassword) {
-  //     Alert.alert('Error', 'Please fill out all fields.');
-  //     return;
-  //   }
+  const handleSignUp = async () => {
+    if (!firstName || !lastName || !email || !password || !confirmPassword) {
+      Alert.alert('Error', 'Please fill out all fields.');
+      return;
+    }
 
-  //   if (password !== confirmPassword) {
-  //     Alert.alert('Error', 'Passwords do not match!');
-  //     return;
-  //   }
+    if (password !== confirmPassword) {
+      Alert.alert('Error', 'Passwords do not match!');
+      return;
+    }
 
-  //   try {
-  //     const userCredential = await signUpWithEmail(email, password);
-  //     const user = userCredential.user;
-  //     console.log('User created:', user);
-  //     Alert.alert('Success', 'Account created!');
-  //     router.push('/explore'); 
-  //   } catch (error: any) {
-  //     console.error('Signup Error:', error);
-  //     Alert.alert('Error', error.message || 'Failed to sign up.');
-  //   }
-  // };
+    try {
+      const response = await fetch(`https://todo-list.dcism.org/signup_action.php/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: JSON.stringify({
+          first_name: firstName,
+          last_name: lastName,
+          email,
+          password,
+          confirm_password: confirmPassword
+        }),
+      });
+
+      console.log('Response:', response);
+
+      const data = await response.json()
+
+      if (data.status !== 200) {
+        Alert.alert('Error', data.message || 'Failed to sign up.');
+        return;
+      }
+
+      Alert.alert('Success', 'Account created successfully!');
+      router.push('/signin'); 
+    } catch (error: any) {
+      console.error('Signup Error:', error);
+      Alert.alert('Error', error.message || 'Failed to sign up.');
+    }
+  };
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -46,10 +67,17 @@ export default function SignUpScreen() {
         />
 
         <Input
-          placeholder="Username"
-          value={username}
-          onChangeText={setUsername}
+          placeholder="First Name"
+          value={firstName}
+          onChangeText={setFirstName}
         />
+
+        <Input
+          placeholder="Last Name"
+          value={lastName}
+          onChangeText={setLastName}
+        />
+
         <Input
           placeholder="Email"
           value={email}
@@ -72,7 +100,7 @@ export default function SignUpScreen() {
 
         <Button
           label="SIGN UP"
-          onPress={() => router.push('/todo')}
+          onPress={handleSignUp}
           color="#F8739A"
         />
 
