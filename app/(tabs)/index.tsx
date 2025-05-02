@@ -3,86 +3,51 @@ import { View, Text, TouchableOpacity, Image, StyleSheet, ScrollView, Alert } fr
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Input from '@/components/Input';
-import Button from '@/components/Button';
 
-export default function SignUpScreen() {
+export default function SignInScreen() {
   const router = useRouter();
 
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
 
-  const handleSignUp = async () => {
-    if (!firstName || !lastName || !email || !password || !confirmPassword) {
+  const handleSignIn = async () => {
+    if (!email || !password) {
       Alert.alert('Error', 'Please fill out all fields.');
       return;
     }
 
-    if (password !== confirmPassword) {
-      Alert.alert('Error', 'Passwords do not match!');
+    // router.push('/todo')
+
+    const response = await fetch(`https://todo-list.dcism.org/signin_action.php?email=${email}&password=${password}`, {
+      method: 'GET'
+    });
+
+    const data = await response.json();
+
+    if (data.status === 200) {
+      const { id, fname, lname } = data.data;
+      localStorage.setItem('user_id', id);
+      localStorage.setItem('user_name', `${fname} ${lname}`);
+      router.push('/todo');
       return;
     }
 
-    try {
-      const response = await fetch(`https://todo-list.dcism.org/signup_action.php/`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: JSON.stringify({
-          first_name: firstName,
-          last_name: lastName,
-          email,
-          password,
-          confirm_password: confirmPassword
-        }),
-      });
-
-      console.log('Response:', response);
-
-      const data = await response.json()
-
-      if (data.status !== 200) {
-        Alert.alert('Error', data.message || 'Failed to sign up.');
-        return;
-      }
-
-      Alert.alert('Success', 'Account created successfully!');
-      router.push('/signin'); 
-    } catch (error: any) {
-      console.error('Signup Error:', error);
-      Alert.alert('Error', error.message || 'Failed to sign up.');
-    }
+    Alert.alert('Error', 'Invalid username or password.');
   };
 
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
         <Image
-          source={require('../../assets/images/signup-img.png')} 
+          source={require('../../assets/images/signin-img.png')} // Replace with actual image path
           style={styles.image}
           resizeMode="contain"
-        />
-
-        <Input
-          placeholder="First Name"
-          value={firstName}
-          onChangeText={setFirstName}
-        />
-
-        <Input
-          placeholder="Last Name"
-          value={lastName}
-          onChangeText={setLastName}
         />
 
         <Input
           placeholder="Email"
           value={email}
           onChangeText={setEmail}
-          keyboardType="email-address"
           autoCapitalize="none"
         />
         <Input
@@ -91,24 +56,16 @@ export default function SignUpScreen() {
           onChangeText={setPassword}
           secureTextEntry
         />
-        <Input
-          placeholder="Confirm Password"
-          value={confirmPassword}
-          onChangeText={setConfirmPassword}
-          secureTextEntry
-        />
 
-        <Button
-          label="SIGN UP"
-          onPress={handleSignUp}
-          color="#F8739A"
-        />
+        <TouchableOpacity style={styles.signInButton} 
+        onPress={handleSignIn}
+        >
+          <Text style={styles.signInText}>SIGN IN</Text>
+        </TouchableOpacity>
 
-        <Button
-          label="SIGN IN"
-          onPress={() => router.push('/signin')}
-          color="#f9d1d8"
-        />
+        <TouchableOpacity style={styles.signUpButton} onPress={() => router.push('/signup')}>
+          <Text style={styles.signUpText}>SIGN UP</Text>
+        </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
   );
@@ -131,7 +88,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     marginBottom: 20,
   },
-  signUpButton: {
+  signInButton: {
     width: '100%',
     backgroundColor: '#F8739A',
     padding: 14,
@@ -139,12 +96,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 10,
   },
-  signUpText: {
+  signInText: {
     color: '#fff',
     fontWeight: 'bold',
     fontSize: 16,
   },
-  signInButton: {
+  signUpButton: {
     width: '100%',
     backgroundColor: '#f9d1d8',
     padding: 14,
@@ -152,7 +109,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 10,
   },
-  signInText: {
+  signUpText: {
     color: '#fff',
     fontWeight: 'bold',
     fontSize: 16,

@@ -1,30 +1,37 @@
+import ITask from '@/types/ITask'
 import { useRouter } from 'expo-router'
 import React from 'react'
-import { StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from 'react-native'
+import { Button, StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from 'react-native'
 import { CheckCircle, Trash2 } from 'react-native-feather'
 
 
 interface TaskProps {
-    name: string
-    isCompleted?: boolean
+    task: ITask
+    changeStatus: (item_id: number, current_status: string) => void
 }
 
-const Task: React.FC<TaskProps> = ({name, isCompleted}) => {
+const Task: React.FC<TaskProps> = ({task, changeStatus}) => {
   const router = useRouter();
+
+  const { item_id, item_name, status } = task;
+    const isCompleted = status === 'inactive';
   
     return (
     <TouchableOpacity style={styles.container} onPress={
-        isCompleted 
-        ? 
-        () => router.push('/edit-completed') 
-        : 
+        isCompleted
+        ?
+        () => router.push('/edit-completed')
+        :
         () => router.push('/edit')
         }>
         <View style={styles.left}>
-            <Text style={styles.text}>{name}</Text>
+            <Text style={styles.text}>{item_name}</Text>
             <Trash2 scale={0.7} color={'red'}/>
+            
         </View>
-        {isCompleted || <CheckCircle scale={0.7} color={'green'}/>}
+        <TouchableOpacity onPress={() => changeStatus(item_id, status)}>
+            {isCompleted || <CheckCircle scale={0.7} color={'green'}/>}
+        </TouchableOpacity>
     </TouchableOpacity>
   )
 }

@@ -1,8 +1,9 @@
 import Button from '@/components/Button'
 import Header from '@/components/Header';
 import Task from '@/components/Task';
+import ITask from '@/types/ITask';
 import { useRouter } from 'expo-router';
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -10,14 +11,64 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 const todo = () => {
     const router = useRouter();
 
+    const [tasks, setTasks] = useState<ITask[]>([]);
+
+    useEffect(() => {
+        const user_id = parseInt(localStorage.getItem('user_id') as string);
+
+        const fetchTasks = async () => {
+            try {
+                const response = await fetch(`https://todo-list.dcism.org/getItems_action.php?status=active&user_id=${user_id}`, {
+                    method: 'GET'
+                });
+                const data = await response.json();
+
+                setTasks(Object.values(data.data));
+            } catch (error) {
+                console.error('Error fetching tasks:', error);
+            }
+        };
+
+        fetchTasks();
+    }, []);
+
+    const changeStatus = async (item_id: number, current_status: string) => {
+        const isActive = current_status === 'active' ? true : false;
+
+        try {
+          const response = await fetch(`https://todo-list.dcism.org/statusItem_action.php`, {
+              method: 'PUT',
+              headers: {
+                  'Content-Type': 'application/x-www-form-urlencoded',
+              },
+              body: JSON.stringify({
+                  status: isActive ? 'inactive' : 'active',
+                  item_id
+              }),
+          });
+
+        } catch (error) {
+            console.error('Error updating task status:', error);
+        }
+    }
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
         <Header title='TO DO'/>
 
         <View style={styles.tasks}>
-            <Task name='Task #1'/>
-            <Task name='Task #2'/>
+            {
+                tasks.length === 0 && (
+                    <Text style={{color: 'black', fontSize: 16, fontWeight: 'bold'}}>No tasks available</Text>
+                )
+            }
+
+            {
+                tasks.map((task) => (
+                    <Task key={task.item_id} task={task} changeStatus={changeStatus}/>
+                ))
+            }
         </View>
 
         <TouchableOpacity style={styles.button} 

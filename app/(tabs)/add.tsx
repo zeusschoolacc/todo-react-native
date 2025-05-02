@@ -4,7 +4,7 @@ import Input from '@/components/Input';
 import Task from '@/components/Task';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react'
-import { StyleSheet, TextInput, View } from 'react-native';
+import { Alert, StyleSheet, TextInput, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -13,6 +13,43 @@ const add = () => {
     const [details, setDetails] = useState('');
 
     const router = useRouter();
+
+    const handleAddTask = async () => {
+        if (!title || !details) {
+            Alert.alert('Error', 'Please fill out all fields.');
+            return;
+        }
+
+        const user_id = localStorage.getItem('user_id');
+
+        try {
+            const response = await fetch(`https://todo-list.dcism.org/addItem_action.php`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: JSON.stringify({
+                    item_name: title,
+                    item_description: details,
+                    user_id 
+                }),
+            });
+
+            const data = await response.json()
+
+            if (data.status !== 200) {
+                Alert.alert('Error', data.message || 'Failed to add task.');
+                return;
+            }
+
+            Alert.alert('Success', 'Task added successfully!');
+            router.push('/todo'); 
+        } catch (error: any) {
+            console.error('Add Task Error:', error);
+            Alert.alert('Error', error.message || 'Failed to add task.');
+        }
+    };
+
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -40,7 +77,7 @@ const add = () => {
           label="ADD TASK"
           color="#F8739A"
           style={styles.button}
-          onPress={() => router.push('/todo')}
+          onPress={handleAddTask}
         />
       </ScrollView>
     </SafeAreaView>
