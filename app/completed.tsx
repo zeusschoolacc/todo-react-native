@@ -19,26 +19,25 @@ const completed = () => {
                 const user_id = parseInt(await AsyncStorage.getItem('user_id') as string);
 
                 try {
-                    const response = await fetch(`https://todo-list.dcism.org/getItems_action.php?user_id=${user_id}&status=inactive`, {
-                        method: 'GET',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        }
-                    });
-                    const data = await response.json();
-                    
-                      setTasks(Object.values(data.data));
-                    } catch (error) {
-                        Alert.alert('Error fetching tasks:', error as string);
-                    }
-                    finally {
-                      setLoading(false);
-                    }
-                };
+                  const user_id = parseInt(await AsyncStorage.getItem('user_id') as string);
+
+                  const response = await fetch(`https://todo-list.dcism.org/getItems_action.php?status=inactive&user_id=${user_id}`, {
+                      method: 'GET'
+                  });
+                  const data = await response.json();
+
+                  setTasks(Object.values(data.data));
+                } catch (error) {
+                    Alert.alert('Error fetching tasks:', error as string);
+                }
+                finally {
+                  setLoading(false);
+                }
+              };
 
         useEffect(() => {
           fetchTasks();
-        });
+        }, []);
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">

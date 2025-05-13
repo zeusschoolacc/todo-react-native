@@ -12,7 +12,7 @@ export default function profile() {
       <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
         <View style={styles.imageContainer}>
             <Image
-              source={require('../../assets/images/pfp.jpg')} // Replace with actual image path
+              source={require('../assets/images/pfp.jpg')} // Replace with actual image path
               style={styles.image}
               resizeMode="contain"
             />

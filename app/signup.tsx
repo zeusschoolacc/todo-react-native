@@ -61,7 +61,7 @@ export default function SignUpScreen() {
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
         <Image
-          source={require('../../assets/images/signup-img.png')} 
+          source={require('../assets/images/signup-img.png')} 
           style={styles.image}
           resizeMode="contain"
         />

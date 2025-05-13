@@ -40,7 +40,7 @@ export default function SignInScreen() {
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
         <Image
-          source={require('../../assets/images/signin-img.png')} // Replace with actual image path
+          source={require('../assets/images/signin-img.png')} // Replace with actual image path
           style={styles.image}
           resizeMode="contain"
         />
@@ -64,7 +64,7 @@ export default function SignInScreen() {
           <Text style={styles.signInText}>SIGN IN</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.signUpButton} onPress={() => router.navigate('/')}>
+        <TouchableOpacity style={styles.signUpButton} onPress={() => router.navigate('/signup')}>
           <Text style={styles.signUpText}>SIGN UP</Text>
         </TouchableOpacity>
       </ScrollView>
