@@ -39,21 +39,21 @@ const edit = () => {
           label="SAVE"
           color="#F8739A"
           style={styles.button}
-          onPress={() => router.push('/todo')}
+          onPress={() => router.navigate('/todo')}
         />
 
         <Button 
           label="COMPLETE"
           color="green"
           style={styles.button}
-          onPress={() => router.push('/todo')}
+          onPress={() => router.navigate('/todo')}
         />
 
         <Button 
           label="DELETE"
           color="red"
           style={styles.button}
-          onPress={() => router.push('/todo')}
+          onPress={() => router.navigate('/todo')}
         />
       </ScrollView>
     </SafeAreaView>

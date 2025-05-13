@@ -2,6 +2,7 @@ import Button from '@/components/Button'
 import Header from '@/components/Header';
 import Input from '@/components/Input';
 import Task from '@/components/Task';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react'
 import { Alert, StyleSheet, TextInput, View } from 'react-native';
@@ -20,7 +21,7 @@ const add = () => {
             return;
         }
 
-        const user_id = localStorage.getItem('user_id');
+        const user_id = await AsyncStorage.getItem('user_id');
 
         try {
             const response = await fetch(`https://todo-list.dcism.org/addItem_action.php`, {

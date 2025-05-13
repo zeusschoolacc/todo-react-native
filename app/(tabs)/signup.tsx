@@ -50,7 +50,7 @@ export default function SignUpScreen() {
       }
 
       Alert.alert('Success', 'Account created successfully!');
-      router.push('/'); 
+      router.navigate('/'); 
     } catch (error: any) {
       console.error('Signup Error:', error);
       Alert.alert('Error', error.message || 'Failed to sign up.');
@@ -106,7 +106,7 @@ export default function SignUpScreen() {
 
         <Button
           label="SIGN IN"
-          onPress={() => router.push('/')}
+          onPress={() => router.navigate('/')}
           color="#f9d1d8"
         />
       </ScrollView>

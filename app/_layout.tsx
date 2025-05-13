@@ -34,7 +34,7 @@ export default function Layout() {
               navigate: (key: string) => {
                 const route = routes.find(route => route.key === key);
                 if (route) {
-                  router.push(route.name);
+                  router.navigate(route.name);
                 } else {
                   console.error(`Route ${key} not found`);
                 }

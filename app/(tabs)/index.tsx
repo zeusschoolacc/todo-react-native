@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, Image, StyleSheet, ScrollView, Alert } fr
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Input from '@/components/Input';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function SignInScreen() {
   const router = useRouter();
@@ -16,7 +17,7 @@ export default function SignInScreen() {
       return;
     }
 
-    // router.push('/todo')
+    // router.navigate('/todo')
 
     const response = await fetch(`https://todo-list.dcism.org/signin_action.php?email=${email}&password=${password}`, {
       method: 'GET'
@@ -26,9 +27,9 @@ export default function SignInScreen() {
 
     if (data.status === 200) {
       const { id, fname, lname } = data.data;
-      localStorage.setItem('user_id', id);
-      localStorage.setItem('user_name', `${fname} ${lname}`);
-      router.push('/todo');
+      AsyncStorage.setItem('user_id', `${id}`);
+      AsyncStorage.setItem('user_name', `${fname} ${lname}`);
+      router.navigate('/todo');
       return;
     }
 
@@ -63,7 +64,7 @@ export default function SignInScreen() {
           <Text style={styles.signInText}>SIGN IN</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.signUpButton} onPress={() => router.push('/signup')}>
+        <TouchableOpacity style={styles.signUpButton} onPress={() => router.navigate('/')}>
           <Text style={styles.signUpText}>SIGN UP</Text>
         </TouchableOpacity>
       </ScrollView>
