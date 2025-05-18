@@ -44,7 +44,7 @@ const add = () => {
             }
 
             Alert.alert('Success', 'Task added successfully!');
-            router.push('/todo'); 
+            router.replace('/todo'); 
         } catch (error: any) {
             console.error('Add Task Error:', error);
             Alert.alert('Error', error.message || 'Failed to add task.');

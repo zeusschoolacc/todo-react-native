@@ -8,7 +8,7 @@ export default function Layout() {
   const pathname = usePathname();
   const router = useRouter();
 
-  const shouldShowNavbar = pathname !== "/signin" && pathname !== "/";
+  const shouldShowNavbar = pathname !== "/signup" && pathname !== "/";
 
   const routes: {
     key: string;

@@ -21,7 +21,7 @@ export default function profile() {
         <Text style={styles.text}>Name: Juan Dela Seth</Text>
 
         <TouchableOpacity style={styles.signOutButton} 
-        onPress={() => router.navigate('/')}
+        onPress={() => router.replace('/')}
         >
           <Text style={styles.signOutText}>SIGN OUT</Text>
         </TouchableOpacity>

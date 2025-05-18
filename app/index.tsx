@@ -17,7 +17,7 @@ export default function SignInScreen() {
       return;
     }
 
-    // router.navigate('/todo')
+    // router.replace('/todo')
 
     const response = await fetch(`https://todo-list.dcism.org/signin_action.php?email=${email}&password=${password}`, {
       method: 'GET'
@@ -29,7 +29,7 @@ export default function SignInScreen() {
       const { id, fname, lname } = data.data;
       AsyncStorage.setItem('user_id', `${id}`);
       AsyncStorage.setItem('user_name', `${fname} ${lname}`);
-      router.navigate('/todo');
+      router.replace('/todo');
       return;
     }
 
@@ -64,7 +64,7 @@ export default function SignInScreen() {
           <Text style={styles.signInText}>SIGN IN</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.signUpButton} onPress={() => router.navigate('/signup')}>
+        <TouchableOpacity style={styles.signUpButton} onPress={() => router.replace('/signup')}>
           <Text style={styles.signUpText}>SIGN UP</Text>
         </TouchableOpacity>
       </ScrollView>

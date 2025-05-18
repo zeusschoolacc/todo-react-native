@@ -39,21 +39,21 @@ const editcompleted = () => {
           label="SAVE"
           color="#F8739A"
           style={styles.button}
-          onPress={() => router.navigate('/completed')}
+          onPress={() => router.replace('/completed')}
         />
 
         <Button 
           label="INCOMPLETE"
           color="gray"
           style={styles.button}
-          onPress={() => router.navigate('/completed')}
+          onPress={() => router.replace('/completed')}
         />
 
         <Button 
           label="DELETE"
           color="red"
           style={styles.button}
-          onPress={() => router.navigate('/completed')}
+          onPress={() => router.replace('/completed')}
         />
       </ScrollView>
     </SafeAreaView>

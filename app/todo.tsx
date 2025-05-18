@@ -87,7 +87,7 @@ const todo = () => {
         </View>
 
         <TouchableOpacity style={styles.button} 
-        onPress={() => router.navigate('/add')}
+        onPress={() => router.replace('/add')}
         >
             <Text style={styles.text}>ADD TASK</Text>
         </TouchableOpacity>
