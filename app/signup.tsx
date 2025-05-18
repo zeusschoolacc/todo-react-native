@@ -13,6 +13,7 @@ export default function SignUpScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSignUp = async () => {
     if (!firstName || !lastName || !email || !password || !confirmPassword) {
@@ -24,6 +25,8 @@ export default function SignUpScreen() {
       Alert.alert('Error', 'Passwords do not match!');
       return;
     }
+
+    setIsLoading(true);
 
     try {
       const response = await fetch(`https://todo-list.dcism.org/signup_action.php/`, {
@@ -46,6 +49,7 @@ export default function SignUpScreen() {
 
       if (data.status !== 200) {
         Alert.alert('Error', data.message || 'Failed to sign up.');
+        setIsLoading(false);
         return;
       }
 
@@ -54,6 +58,9 @@ export default function SignUpScreen() {
     } catch (error: any) {
       console.error('Signup Error:', error);
       Alert.alert('Error', error.message || 'Failed to sign up.');
+    }
+    finally {
+      setIsLoading(false);
     }
   };
 
@@ -98,17 +105,27 @@ export default function SignUpScreen() {
           secureTextEntry
         />
 
-        <Button
-          label="SIGN UP"
-          onPress={handleSignUp}
-          color="#F8739A"
-        />
-
-        <Button
-          label="SIGN IN"
-          onPress={() => router.replace('/')}
-          color="#f9d1d8"
-        />
+        {
+          isLoading ?
+          <Button
+            label="Loading..."
+            onPress={() => {}}
+            color="#F8739A"
+          />
+          :
+          <>
+            <Button
+              label="SIGN UP"
+              onPress={handleSignUp}
+              color="#F8739A"
+            />
+            <Button
+                label="SIGN IN"
+                onPress={() => router.replace('/')}
+                color="#f9d1d8"
+              />
+          </>
+        }
       </ScrollView>
     </SafeAreaView>
   );

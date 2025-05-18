@@ -2,7 +2,7 @@ import ITask from '@/types/ITask'
 import { useRouter } from 'expo-router'
 import React from 'react'
 import { Button, StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from 'react-native'
-import { CheckCircle, Trash2 } from 'react-native-feather'
+import { CheckCircle, RotateCcw, Trash2 } from 'react-native-feather'
 
 
 interface TaskProps {
@@ -30,7 +30,7 @@ const Task: React.FC<TaskProps> = ({task, changeStatus}) => {
             
         </View>
         <TouchableOpacity onPress={() => changeStatus(item_id, status)}>
-            {isCompleted || <CheckCircle scale={0.7} color={'green'}/>}
+            {isCompleted ? <RotateCcw scale={0.7} color={'orange'}/> : <CheckCircle scale={0.7} color={'green'}/>}
         </TouchableOpacity>
     </TouchableOpacity>
   )

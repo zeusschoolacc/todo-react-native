@@ -42,13 +42,13 @@ const styles = StyleSheet.create({
   imageContainer: {
     padding: 10,
     backgroundColor: '#F8739A',
-    borderRadius: '100%',
+    borderRadius: 9999,  // ✅ Large numeric value for full rounding
     marginBottom: 20,
   },
   image: {
     width: 300,
     height: 300,
-    borderRadius: '100%'
+    borderRadius: 150  // ✅ Half of width/height for perfect circle
   },
   text: {
     fontSize: 24,

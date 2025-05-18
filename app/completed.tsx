@@ -38,6 +38,29 @@ const completed = () => {
         useEffect(() => {
           fetchTasks();
         }, []);
+
+        const changeStatus = async (item_id: number, current_status: string) => {
+        const isActive = current_status === 'active' ? true : false;
+
+        try {
+          const response = await fetch(`https://todo-list.dcism.org/statusItem_action.php`, {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/x-www-form-urlencoded',
+              },
+              body: JSON.stringify({
+                  status: isActive ? 'inactive' : 'active',
+                  item_id
+              }),
+          });
+
+        } catch (error) {
+            console.error('Error updating task status:', error);
+        }
+        finally {
+          fetchTasks();
+        }
+    }
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
@@ -56,7 +79,7 @@ const completed = () => {
 
             {
                 !loading && tasks.map((task) => (
-                    <Task key={task.item_id} task={task} changeStatus={() => {}}/>
+                    <Task key={task.item_id} task={task} changeStatus={changeStatus}/>
                 ))
             }
         </View>

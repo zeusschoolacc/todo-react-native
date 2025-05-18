@@ -10,12 +10,17 @@ export default function SignInScreen() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSignIn = async () => {
+    
+
     if (!email || !password) {
       Alert.alert('Error', 'Please fill out all fields.');
       return;
     }
+
+    setIsLoading(true);
 
     // router.replace('/todo')
 
@@ -34,6 +39,8 @@ export default function SignInScreen() {
     }
 
     Alert.alert('Error', 'Invalid username or password.');
+
+    setIsLoading(false);
   };
 
   return (
@@ -58,15 +65,25 @@ export default function SignInScreen() {
           secureTextEntry
         />
 
-        <TouchableOpacity style={styles.signInButton} 
-        onPress={handleSignIn}
-        >
-          <Text style={styles.signInText}>SIGN IN</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.signUpButton} onPress={() => router.replace('/signup')}>
-          <Text style={styles.signUpText}>SIGN UP</Text>
-        </TouchableOpacity>
+        {
+          isLoading ?
+          <>
+            <TouchableOpacity style={styles.signInButton} disabled>
+              <Text style={styles.signInText}>Loading...</Text>
+            </TouchableOpacity>
+          </>
+          :
+          <>
+            <TouchableOpacity style={styles.signInButton}
+            onPress={handleSignIn}
+            >
+              <Text style={styles.signInText}>SIGN IN</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.signUpButton} onPress={() => router.replace('/signup')}>
+              <Text style={styles.signUpText}>SIGN UP</Text>
+            </TouchableOpacity>
+          </>
+        }
       </ScrollView>
     </SafeAreaView>
   );
