@@ -8,26 +8,30 @@ import { CheckCircle, RotateCcw, Trash2 } from 'react-native-feather'
 interface TaskProps {
     task: ITask
     changeStatus: (item_id: number, current_status: string) => void
+    handleDelete: (item_id: number) => void
 }
 
-const Task: React.FC<TaskProps> = ({task, changeStatus}) => {
-  const router = useRouter();
+const Task: React.FC<TaskProps> = ({task, changeStatus, handleDelete}) => {
+    const router = useRouter();
 
-  const { item_id, item_name, status } = task;
+    const { item_id, item_name, item_description, status } = task;
     const isCompleted = status === 'inactive';
-  
+
+    const urlParams = `item_id=${item_id}&item_name=${item_name}&item_description=${item_description}`;
+
     return (
     <TouchableOpacity style={styles.container} onPress={
         isCompleted
         ?
-        () => router.push('/edit-completed')
+        () => router.push(`/edit-completed?${urlParams}`)
         :
-        () => router.push('/edit')
+        () => router.push(`/edit?${urlParams}`)
         }>
         <View style={styles.left}>
             <Text style={styles.text}>{item_name}</Text>
-            <Trash2 scale={0.7} color={'red'}/>
-            
+            <TouchableOpacity onPress={() => handleDelete(item_id)}>
+                <Trash2 scale={0.7} color={'red'} />
+            </TouchableOpacity>
         </View>
         <TouchableOpacity onPress={() => changeStatus(item_id, status)}>
             {isCompleted ? <RotateCcw scale={0.7} color={'orange'}/> : <CheckCircle scale={0.7} color={'green'}/>}

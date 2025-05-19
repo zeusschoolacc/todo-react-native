@@ -4,6 +4,7 @@ import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Input from '@/components/Input';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { LoadingScreen } from '@/components/LoadingScreen';
 
 export default function SignInScreen() {
   const router = useRouter();
@@ -43,6 +44,12 @@ export default function SignInScreen() {
     setIsLoading(false);
   };
 
+  if (isLoading) {
+    return (
+      <LoadingScreen />
+    )
+  }
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
@@ -65,25 +72,15 @@ export default function SignInScreen() {
           secureTextEntry
         />
 
-        {
-          isLoading ?
-          <>
-            <TouchableOpacity style={styles.signInButton} disabled>
-              <Text style={styles.signInText}>Loading...</Text>
-            </TouchableOpacity>
-          </>
-          :
-          <>
-            <TouchableOpacity style={styles.signInButton}
-            onPress={handleSignIn}
-            >
-              <Text style={styles.signInText}>SIGN IN</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.signUpButton} onPress={() => router.replace('/signup')}>
-              <Text style={styles.signUpText}>SIGN UP</Text>
-            </TouchableOpacity>
-          </>
-        }
+        <TouchableOpacity style={styles.signInButton}
+        onPress={handleSignIn}
+        >
+          <Text style={styles.signInText}>SIGN IN</Text>
+        </TouchableOpacity>
+        
+        <TouchableOpacity style={styles.signUpButton} onPress={() => router.replace('/signup')}>
+          <Text style={styles.signUpText}>SIGN UP</Text>
+        </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
   );

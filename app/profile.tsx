@@ -1,11 +1,31 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet, ScrollView, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Input from '@/components/Input';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function profile() {
   const router = useRouter();
+
+  const [name, setName] = useState('Loading...');
+
+  useEffect(() => {
+    const fetchUserName = async () => {
+      try {
+        const storedName = await AsyncStorage.getItem('user_name');
+        
+        if (storedName) {
+          setName(storedName);
+        }
+      }
+      catch(error) {
+        console.error('Error fetching name from AsyncStorage:', error);
+      }
+    }
+
+    fetchUserName();
+  }, [])
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -18,7 +38,7 @@ export default function profile() {
             />
         </View>
 
-        <Text style={styles.text}>Name: Juan Dela Seth</Text>
+        <Text style={styles.text}>{name}</Text>
 
         <TouchableOpacity style={styles.signOutButton} 
         onPress={() => router.replace('/')}

@@ -4,6 +4,7 @@ import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Input from '@/components/Input';
 import Button from '@/components/Button';
+import { LoadingScreen } from '@/components/LoadingScreen';
 
 export default function SignUpScreen() {
   const router = useRouter();
@@ -63,6 +64,12 @@ export default function SignUpScreen() {
       setIsLoading(false);
     }
   };
+
+  if (isLoading) {
+    return (
+      <LoadingScreen />
+    )
+  }
 
   return (
     <SafeAreaView style={styles.safeArea}>
