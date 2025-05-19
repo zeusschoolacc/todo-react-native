@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "To Do Sonny",
-    "slug": "todo-react-native",
+    "slug": "todo-maui",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/signin-img.png",
